@@ -1,4 +1,4 @@
-#ifndef TCPFILESERVER_H
+﻿#ifndef TCPFILESERVER_H
 #define TCPFILESERVER_H
 
 #include <QDialog>
@@ -23,6 +23,10 @@ private:
     QPushButton      *startButton;
     QPushButton      *quitButton;
     QDialogButtonBox *buttonBox;
+    QLabel           *hostLabel;
+    QLineEdit        *lineEdit;
+    QLabel           *portLabel;
+    QLineEdit        *lineEdit2;
 
     QTcpServer       tcpServer;
     QTcpSocket       *tcpServerConnection;

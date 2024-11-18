@@ -11,12 +11,20 @@ TcpFileServer::TcpFileServer(QWidget *parent)
     startButton = new QPushButton(QStringLiteral("接收"));
     quitButton = new QPushButton(QStringLiteral("退出"));
     buttonBox = new QDialogButtonBox;
+    QFormLayout *formLayout = new QFormLayout;
+    lineEdit = new QLineEdit;
+    hostLabel = new QLabel(QStringLiteral("IP:"));
+    portLabel = new QLabel(QStringLiteral("Port:"));
+    lineEdit2 = new QLineEdit;
     buttonBox->addButton(startButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton,QDialogButtonBox::RejectRole);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addWidget(serverProgressBar);
     mainLayout->addWidget(serverStatusLabel);
+    mainLayout->addLayout(formLayout);
+    formLayout->addRow(hostLabel, lineEdit);
+    formLayout->addRow(portLabel, lineEdit2);
     mainLayout->addStretch();
     mainLayout->addWidget(buttonBox);
     setLayout(mainLayout);
@@ -37,8 +45,11 @@ void TcpFileServer::start()
     startButton->setEnabled(false);
     byteReceived = 0;
     fileNameSize = 0;
+    QString ip = lineEdit->text();
+    QString port = lineEdit2->text();
+    // tcpClient.connectToHost(QHostAddress(ip), port.toInt());
     while(!tcpServer.isListening() &&
-          !tcpServer.listen(QHostAddress::AnyIPv4, 16998))
+          !tcpServer.listen(QHostAddress(ip), port.toInt()))
     {
         QMessageBox::StandardButton ret = QMessageBox::critical(this,
                                                                 QStringLiteral("迴圈"),
